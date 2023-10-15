@@ -1,2 +1,6 @@
 *~ 
 *.tmp
+*.pdf
+*.csv
+sandbox/*
+!sandbox/.gitkeep
