@@ -1,20 +1,20 @@
 ###############################
 #1 Count how many lines there are in each file
-wc -l ../data/407228412.fasta ; wc -l ../data/407228326.fasta ; wc -l ../data/E.coli.fasta
+wc -l ../data/fasta/407228412.fasta ; wc -l ../data/fasta/407228326.fasta ; wc -l ../data/fasta/E.coli.fasta
 
 ###############################
 #2 Print everything starting from the second line for the E.coli genome
-tail -n +2 ../data/E.coli.fasta
+tail -n +2 ../data/fasta/E.coli.fasta
 
 ###############################
 #3 Count sequence length of E.coli genome
-tail -n +2 ../data/E.coli.fasta | tr -d '\n' | wc -m
+tail -n +2 ../data/fasta/E.coli.fasta | tr -d '\n' | wc -m
 
 ###############################
 #4 Count instances of "ATGC" in the E.coli genome
-tail -n +2 ../data/E.coli.fasta | tr -d '\n' | grep -o 'ATGC' | wc -l
+tail -n +2 ../data/fasta/E.coli.fasta | tr -d '\n' | grep -o 'ATGC' | wc -l
 
 ###############################
 #5 AT/GC ratio of the E.coli genome
-y=$(tail -n +2 ../data/E.coli.fasta | tr -d '\n' | grep -o 'A\|T' | wc -l) ; z=$(tail -n +2 ../data/E.coli.fasta | tr -d '\n' | grep -o 'G\|C' | wc -l) ; echo "$y / $z" | bc -l
+y=$(tail -n +2 ../data/fasta/E.coli.fasta | tr -d '\n' | grep -o 'A\|T' | wc -l) ; z=$(tail -n +2 ../data/fasta/E.coli.fasta | tr -d '\n' | grep -o 'G\|C' | wc -l) ; echo "$y / $z" | bc -l
 
