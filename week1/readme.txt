@@ -5,6 +5,10 @@ Week 1 contains the following sections:
 > Version control with Git
 > Scientific documents with LaTeX
 
+Week 1 uses the following languages:
+> Linux shell scripting
+> LaTeX
+
 The following files can be found in the 'code' folder:
 > UnixPrac1.txt
 > boilerplate.sh
@@ -15,3 +19,7 @@ The following files can be found in the 'code' folder:
 > ConcatenateTwoFiles.sh
 > tiff2png.sh
 > csvtospace.sh
+
+Author:
+> Tianle Shao
+> tianle.shao20@imperial.ac.uk

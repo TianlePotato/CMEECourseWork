@@ -1,6 +1,8 @@
 #!/bin/sh
-
-## Illustrates the use of variables
+# Author: Tianle Shao tianle.shao20@imperial.ac.uk
+# Script: variables.sh
+# Desc: Illustrates the use of variables
+# Date: Oct 2023
 
 # Special variables
 

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Author: Tianle Shao tianle.shao20@imperial.ac.uk
 # Script: tiff2png.sh
 # Desc: conversion of .tif files to .png files
