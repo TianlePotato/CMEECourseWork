@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+"""A script that tests the reading & writing of .csv files
+This uses the file '../data/testcsv.csv'
+and saves output in the file '../data/bodymass.csv'"""
+
 import csv
 
 with open("../data/testcsv.csv", "r") as f:

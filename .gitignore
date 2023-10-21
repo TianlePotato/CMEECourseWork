@@ -1,6 +1,7 @@
 *~ 
 *.tmp
 *.pdf
-*.csv
 sandbox/*
 !sandbox/.gitkeep
+__pycache__
+.vscode

@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+
+"""This script tests opening files using 'open'
+and printing the files by line"""
+
 #############################
 # FILE INPUT
 #############################

@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+
+"""returns the value of x,y,z
+where y=x and decreases by 1 every loop
+where z=x/y"""
 def buggyfunc(x):
     y = x
     for i in range(x):

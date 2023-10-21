@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+"""Identifies the presence of oaks from a list of taxa"""
+
 taxa = [ 'Quercus robur',
          'Fraxinus excelsior',
          'Pinus sylvestris',
@@ -5,7 +9,9 @@ taxa = [ 'Quercus robur',
          'Quercus petraea',
        ]
 
+
 def is_an_oak(name):
+    """Returns TRUE if genus is quercus"""
     return name.lower().startswith('quercus ')
 
 # Use for loops

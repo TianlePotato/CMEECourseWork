@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+"""Tests global and local variables using functions"""
+
 #############################################
 _a_global = 10 # a global variable
 

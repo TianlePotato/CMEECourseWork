@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+"""This script stores a variable into a file"""
+
 #############################
 # STORING OBJECTS
 #############################

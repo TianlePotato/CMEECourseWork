@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+"""This script writes a file into '../sandbox/testout.txt' """
+
 #############################
 # FILE OUTPUT
 #############################
