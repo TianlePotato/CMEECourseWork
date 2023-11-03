@@ -5,3 +5,8 @@ sandbox/*
 !sandbox/.gitkeep
 __pycache__
 .vscode
+week4/
+week5/
+!week3/results/*
+week3/code/.RData
+week3/code/.Rhistory
