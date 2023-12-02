@@ -1,0 +1,155 @@
+\documentclass[11pt, letterpaper]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{lineno} % line numbers
+\usepackage{setspace} % set space width between columns
+\usepackage{natbib} % Bibliography styles
+\usepackage[margin = 2cm]{geometry}
+\usepackage{multirow}
+
+\title{Miniproject_Report}
+\author{Tianle Shao}
+\date{November 2023}
+
+\begin{document}
+
+\begin{titlepage}
+    \vspace*{3cm}
+    \centering
+    % Title
+    \Huge
+    Mechanistic models outperform phenomenological models in describing bacterial growth dynamics
+    
+    \vspace{1.5cm} % Adjust vertical space
+    
+    % Author
+    \Large
+    Tianle Shao \\
+
+    \vspace{0.5cm}
+    
+    Silwood Park, Imperial College London
+    
+    \vspace{3cm} % Adjust vertical space
+
+    Word Count: \\
+    69
+    
+    % Add other information if needed (date, institution, etc.)
+    
+\end{titlepage}
+
+\linenumbers
+\onehalfspacing
+\section{Abstract} % ~200 words
+Modelling using different equations is an integral part of predicting growth trends in organisms including bacteria. These models can be phenomenological, which use empirical equations to describe trends in data, or mechanistic, where model parameters are based on biologically significant traits.
+To determine whether phenomenological or mechanistic models would best describe my dataset of bacterial growth curves, I used model selection to evaluate the performances of two linear phenomenological models - the quadratic and cubic models, and two non-linear least square (NLLS) models with mechanistic elements - the logistic and Gompertz models. Adjusted Akaike information criterion (AICc) and Bayesian information criterion (BIC) were used to compare model fits.
+The logistic model fit best to the highest number of growth curves according to both AICc and BIC metrics, whilst the Gompertz model was second best for both metrics.
+This suggests how phenomenological models are not able to fully capture the complexities of bacterial growth curves, whilst mechanistic parameters allow for better predictions of distinct phases such as the lag and stationary phases. Both the logistic and Gompertz models however fell short when predicting trends for the death phase.
+
+\section{Introduction} % ~500 words
+Predicting long term changes has become ever more important across a multitude of fields, and the importance of reliably modelling these future changes has been increasingly recognised. Growth models can build on existing data to predict future growth changes. They are highly applicable in biological and ecological contexts, appearing in fields from disease control and epidemic modelling, where pathogen growth and spread can be predicted and controlled \citep{covid}; to conservation and climate change, where species population trends can be identified and decisions made regarding their conservation \citep{orangutan}. \\
+
+\noindent A variety of models, both phenomenological and mechanistic, are used to predict biological phenomenon using equations, including the growth dynamics of organisms. Phenomenological models have traditionally been used widely in both research and providing future trend data to advise industry, as they are relatively easy to fit to data, and predict growth by using empirical equations to fit to observed correlations between points, rather than an understanding of the mechanisms behind the trends \citep{transtrum_bridging_2016}. This lack of mechanistic understanding of growth can be a weakness of phenomenological models, meaning they may fit worse to complex growth curves, and struggle at predicting changes beyond where data is available. On the other hand, mechanistic models incorporate biologically derived parameters into their equations, and can more capable of fitting complex trends, and predicting long term data \citep{transtrum_bridging_2016}. These models however can be difficult to fit due to the complexity of their input parameters, and the potentially large number of them. Large, over-parameterised mechanistic models may have poorer predictive performance when compared to simpler mechanistic models, or even phenomenological models \citep{levins_strategy_2023, pitt_when_2002, transtrum_bridging_2016}.\\
+
+\noindent One way to assess the goodness of fit of a model is to use null model testing, a very commonly used method in ecological research. This method however has several problems, including that the model is tested against an arbitrary and often not biologically meaningful null hypothesis, and is only accepted as meaningful when the null is rejected. Model comparison can be a useful alternative way of verifying the effectiveness of one or many models, and is done by comparing models with other functional models rather than a null. Furthermore, compared models can be ranked according to their goodness of fit, and averaged with each other if no meaningful differences are found. These benefits mean model fitting has been increasingly used in the fields of ecology and evolution \citep{johnson_model_2004}. \\
+
+\noindent In this project, I make use of model comparison methods to compare the fit of several models, both phenomenological and mechanistic, to a dataset of bacteria growth curves. Although the typical growth curve in a closed environment can be characterised through distinct phases, namely lag, exponential growth, stationary and death/mortality \citep{peleg_microbial_2011}, these growth curves vary widely in their morphology, and may not be best fit by any one model. I therefore test and compare 4 models on these growth curves, including 2 simple phenomenological models: the quadratic and cubic models, and 2 models with mechanistic elements: the logistic and modified Gompertz models, to see what type of model could best fit these curves.
+
+
+\section{Methods} % ~600 words
+\subsection{Data}
+The data file \textit{"LogisticGrowthData.csv"} contains 4387 rows of data, representing 285 unique sets of bacteria growth data, originating from 10 papers (see data file). The dataset contained bacteria of 45 different species, and were grown under varying environmental conditions, including temperature and growth medium. The data was examined and negative abundance values were removed, resulting in 4361 rows of data remaining.
+
+\subsection{Models}
+I fitted 4 different models to all 285 data subsets. This includes 2 linear polynomial, phenomenological models: the quadratic and cubic models, and 2 non-linear least square (NLLS), models with mechanistic parameters: the logistic and Gompertz models. The quadratic and cubic polynomial models are represented by the quadratic (1) and cubic (2) equations:
+% Quadratic Equation
+\[
+    N_t = B_0 + B_1t + B_2t^2 \tag{1}
+\]
+
+% Cubic Equation
+\[
+    N_t = B_0 + B_1t + B_2t^2 + B_3t^3 \tag{2}
+\]
+Where \(N_t\) is the population at time \(t\), \(t\) is the time. \(B_0, B_1, B_2\) and \(B_3\) are parameters that do not represent any growth mechanism. These models are fit automatically to the data, by identifying and fitting to any trends in the points.\\
+
+% Logistic Equation
+\noindent The logistic model is represented by the logistic equation (3):
+\[ 
+    N_t = \frac{N_0Ke^{rt}}{K + N_0(e^{rt} -1)} \tag{3}
+\]
+Where \(N_t\) is the population at time \(t\), \(N_0\) is the initial population size, \(K\) is the maximum carrying capacity, \(r\) is the maximum growth rate \((r_{max})\), and \(t\) is the time. The maximum carrying capacity $K$ represents the maximum long term population of an organism, given resource and space limitations, which allows the stationary phase of an organism's growth to be modelled.\\
+
+% Gompertz Equation
+\noindent The Gompertz model is represented by the modified Gompertz equation \citep{zwietering_modeling_1990} (4):
+\[ 
+    log(N_t) = N_0 + (K - N_0)e^{-e^{re(1)\frac{t_{lag}-t}{(K - N_0)log(10)}+1}} \tag{4}
+\]
+Where \(N_t\) is the population at time \(t\), \(N_0\) is the initial population size, \(K\) is the maximum carrying capacity, \(r\) is the maximum growth rate \((r_{max})\), \(t\) is the time, and \(t_{lag}\) is the duration of the initial lag phase before exponential growth. On top of the maximum carrying capacity $K$, also found in the logistic model, the addition of the $t_{lag}$ parameter allows the Gompertz model to predict lag phase dynamics in populations, so that the time taken for adjustment to a new environment can be accounted for.
+
+\subsection{Model Fitting}
+The abundance values for the dataset were logged, and model fitting was performed on this logged data. All models were fit in R \citep{R}, where the quadratic and cubic models were modelled using the "lm()" function from base R, with population as the response variable, and time as the predictor variable. The logistic and Gompertz models were defined as functions, where starting values for parameters were modified to maximise the number of successful fits to the data: 
+\begin{itemize}
+    \item Starting values for the initial population size ($N_0$) and maximum carrying capacity ($K$) were set as the minimum and maximum abundances respectively.
+    \item A few methods were compared for finding the starting values of the maximum growth rate ($r_{max}$), including using a set starting value for all curves, using a linear model to estimate the gradient of the exponential phase, and finding the successive points in which the gradient was greatest using the "diff()" function from base R. However, the method I found to fit the best was to use calculate the gradient between the maximum and minimum points as a proxy for $r_{max}$.
+    \item Starting values for the $t_{lag}$ of the Gompertz equation were found through identifying the final point that corresponded to the lag phase. This was done by finding the differences between successive points, and then the maximum differences between these differences, as to determine when the lag phase ends.
+\end{itemize}
+
+\noindent Model comparison was done using the sample size-adjusted Akaike Information Criterion (AICc) and Bayesian Information Criterion (BIC). Although both of these metrics are used the same way, they have slightly different scoring criteria, notably that BIC has a greater penalty for more complex models, favouring those that are simpler \citep{burnham&Anderson_2004}. $R^2$ values were not used for model comparison, but were used to assess the goodness of fit of models.
+
+\subsection{Computing Tools}
+All data analysis was done in R version 4.1.2 \citep{R}. The package "tidyverse" \citep{tidyverse} was used for data wrangling and plotting graphs. The package "patchwork" \citep{patchwork} was used for modifying plotted graphs. The package "minpack.lm" \citep{minpack.lm} was used for modelling non-linear least square (NLLS) models. Compared to the base "nls()" function which uses the Gauss-Newton algorithm, the "nls.LM()" function provided by "minpack.lm" uses the more robust Levenberg-Marqualdt algorithm, which is less likely to fail when starting values are set to be far from the optimal. 
+The running of the above R scripts in the appropriate workflow, as well as the compilation of this \LaTeX \space document was done using shell scripting in BASH version 5.1.16(1).
+
+\section{Results} % ~200 words
+\noindent The quadratic, cubic and logistic models successfully converged 100\% of the time, fitting to all 285 bacterial growth curves, whilst the Gompertz model failed to converge in 24 of the curves, resulting in a 91.6\% success rate.
+At least 85\% of $R^2$ values were greater than 0.5 for all models, with logistic having the highest percentage at 91.8\%.
+The logistic model was found to fit best in the most growth curves according to both AICc and BIC metrics. According to AICc metrics, the logistic model was the best fit in 60.4\% of all curves, with the Gompertz model second at 18.2\%, the quadratic model third at 11.5\%, and the cubic model last at 9.8\%. BIC metrics also suggest the logistic model was the best fit in the most cases, at 40.7\%, with the Gompertz model second at 34\%, the cubic model third at 18.6\%, and the quadratic last at 6.7\% (Table \ref{tab:model_comparison}).
+\begin{table}[h]
+    \centering
+    \caption{Model Comparison}
+    \begin{tabular}{lcccc}
+        \hline
+        Model 
+        & \multicolumn{1}{p{3cm}}{\centering Convergence \\ Rate (\%)}
+        & \multicolumn{1}{p{3cm}}{\centering Proportion of \\ $R^2$ \textgreater{} 0.5 (\%)}
+        & \multicolumn{1}{p{3.2cm}}{\centering Proportion of \\ best AICc fits (\%)}
+        & \multicolumn{1}{p{3cm}}{\centering Proportion of \\ best BIC fits (\%)}\\
+        \hline
+        Quadratic & 100 & 85.1 & 11.5 & 6.7\\
+        Cubic    & 100 & 90.8 & 9.8 & 18.6 \\
+        Logistic & 100 & 91.8 & 60.4 & 40.7 \\
+        Gompertz & 91.6 & 89.2 & 18.2 & 34.0\\
+        \hline
+    \label{tab:model_comparison}
+    \end{tabular}
+\end{table}
+
+\begin{figure}
+    \centering{}
+    \includegraphics[width=0.9\textwidth]{../results/combined.png}
+    \caption{Example plots where each model fit best to the data points. \textbf{A)} Cubic best fit, where data points show clear death phase. \textbf{B)} Quadratic best fit in a curve with very few data points. \textbf{C)} Gompertz best fit, where data points show extensive lag phase. \textbf{D)} Logistic best fit, where there is a clear stationary phase and little lag phase.}
+    \label{fig:four_panels}
+\end{figure}
+
+\section{Discussion}
+\noindent Overall, models with mechanistic elements - the logistic and Gompertz, outperformed the phenomenological models when fitting to bacterial growth curve datasets. This would suggest that the parameters of the models, representing biological characteristics, allow the logistic and Gompertz models to achieve a better fit than the phenomenological ones. The phenomenological models however do have higher AICc and BIC scores in select growth curve fits. The cubic model's best fits are often achieved on curves with a significant death phase present (Figure \ref{fig:four_panels}A), a mechanism that is not accounted for by the parameters of either the logistic or Gompertz model, but can be partially fitted to by the cubic (or quadratic) model as its shape can decline after peaking. The quadratic model's best fits are only achieved on growth curves with limited datapoints, and on highly scattered curves without an obvious curved shape, possibly due to the flexibility of the model to fit when other models have greater shape constraints (Figure \ref{fig:four_panels}B). Overall, this highlights how the mechanistic models performed well in curves with characteristics that their parameters were set up to predict, and couldn't fit as well in curves with unexpected components such as the death phase.\\
+
+\noindent Out of the mechanistic models, the logistic outperformed the Gompertz massively in AICc metrics, and slightly for BIC metrics. This could be due to $t_{lag}$ parameter of the Gompertz model not being put into full use, as most data curves seemed to lack a significant lag phase (Figure \ref{fig:four_panels}C for curve with lag phase). Additionally, as both AICc and BIC metrics penalise models with greater number of parameters \citep{burnham&Anderson_2004}, the additional $t_{lag}$ parameter of the Gompertz model and its limited use during fitting could be a reason for it scoring worse than the Logistic model. Indeed, a biological model should distill a complex biological system into an equation that is as simple as possible for ease of use, whilst maintaining the ability to represent the true system \citep{transtrum_bridging_2016}. The uniform and controlled nature of experimental growth environments are thought to encourage more symmetric growth curves, whilst more heterogeneous environments lead to more asymmetric curves \citep{peleg_modeling_1997}. The Gompertz model can fit both symmetric and asymmetric curves, whilst the logistic fits only symmetric curves \citep{peleg_modeling_1997}, meaning the advantages of the Gompertz model may be increased if the environment contained more heterogeneity, rather than the controlled environments with single species present in this dataset. \\
+
+\noindent Interestingly however, the Gompertz model achieved almost twice the number of best fits for BIC compared to AICc, despite the fact that BIC penalises greater complexity more than AICc, overall favouring models with fewer parameters. This could be due to other differences between AICc and BIC, as they are known to select models differently depending on how much additional predictive power a more complex model has over a more simple one. In the context of tapering effects, where more complex models gradually add less and less predictive power, AIC/AICc is thought to perform better than BIC \citep{burnham&Anderson_2004}. Additional analysis would be required to determine if this tapering effect is present for this dataset and models. \\
+
+\noindent Despite the logistic and Gompertz models fitting to the data better than the linear models, neither were able to fit well to growth curves that had a steep death phase, as neither incorporated a parameter for the death phase in their equations. Some attempts have been made at incorporating a death phase into a model equation, for instance the equation derived by Whiting \& Cygnarowicz-Provost \citeyearpar{whiting_quantitative_1992}. The equations however are much more complex than the relatively simple logistic and Gompertz models, and therefore may have additional difficulties when fitted to the datapoints. Apart from the death phase itself, mortality in any other part of the growth curve is also not modelled by the logistic and Gompertz models, which may impact results and limit biological inference \citep{peleg_microbial_2011}. Future studies may want to incorporate death phase models into their growth curve model comparison. \\
+
+\noindent Importantly, although the logistic and Gompertz models have mechanistically derived parameters, in this case the growth rate, maximum carrying capacity, and lag phase duration, we are unable to infer what traits and processes of the bacteria are actually resulting in these values. This is due to a number of different traits at the cellular level potentially influencing these parameters, making any more specific inferences about bacterial physiology impossible without specifically designed tests \citep{peleg_microbial_2011}.\\
+
+\noindent Overall, this project highlights the importance of model comparison in choosing a best model to use, but also the difficulties of choosing any single model to be able to fit a range of differently shaped growth curves. My analysis was performed on a dataset containing bacteria grown in controlled conditions, but even so saw many types of growth curve shapes, and therefore different models fitting best to each of these shapes. In more complex and less controlled systems, more complex models would need to be fitted, which would also result in more room for error. In reality, the failure of models, especially when attempting to predict future trends, can lead to severe consequences. In the context of fisheries, growth models overestimated maximum production rate of North Atlantic cod, leading to the entire fish stock collapsing \citep{cod_1996}. This highlights the difficulties of applying models in practical use and industry, emphasising the need for vigorous model selection processes.
+
+\section{Conclusion}
+In conclusion, models with mechanistic components outperformed phenomenological models when fitting to bacterial growth curves. The logistic model, a classic model in predicting growth rate, was able to fit best to the most growth curves according to both AICc and BIC metrics. The Gompertz model came in second, and may have been outperformed due to additional complexity from its $t_lag$ parameter, which did not provide substantial improvements to fit in this dataset. This suggests the importance of understanding bacterial growth phases when modelling their growth curves, with the prediction of exponential growth and stationary phase dynamics by the logistic and Gompertz models allowing much improved fits compared to linear models. The better fits of linear models on some curves, especially those with death phases, highlights how neither mechanistic model had parameters to fit the death phase. Future studies in bacterial growth rates should look to parameterise this if death phases are common in the analysed data.
+
+\bibliographystyle{agsm}
+\bibliography{references}
+
+\end{document}

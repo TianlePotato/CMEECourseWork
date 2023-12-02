@@ -7,6 +7,8 @@ __pycache__
 .vscode
 week4/
 week5/
+week6/
 !week3/results/*
-week3/code/.RData
-week3/code/.Rhistory
+.RData
+.Rhistory
+.ipynb_checkpoints
