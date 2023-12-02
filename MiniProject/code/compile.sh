@@ -17,10 +17,10 @@ else
 fi
 
 # Complies the .pdf document
-pdflatex $filename.tex
+pdflatex -shell-escape $filename.tex
 bibtex $filename
-pdflatex $filename.tex
-pdflatex $filename.tex
+pdflatex -shell-escape $filename.tex
+pdflatex -shell-escape $filename.tex
 evince $filename.pdf &
 
 # Cleanup

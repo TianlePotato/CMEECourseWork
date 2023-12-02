@@ -7,6 +7,11 @@
 \usepackage[margin = 2cm]{geometry}
 \usepackage{multirow}
 
+\newcommand\wordcount{
+    \immediate\write18{texcount -1 -sum -merge \jobname.tex > \jobname-words.sum }
+    \input{\jobname-words.sum}
+}
+
 \title{Miniproject_Report}
 \author{Tianle Shao}
 \date{November 2023}
@@ -33,11 +38,12 @@
     \vspace{3cm} % Adjust vertical space
 
     Word Count: \\
-    69
+    \wordcount{}
     
     % Add other information if needed (date, institution, etc.)
     
 \end{titlepage}
+
 
 \linenumbers
 \onehalfspacing
@@ -96,7 +102,17 @@ The abundance values for the dataset were logged, and model fitting was performe
     \item Starting values for the $t_{lag}$ of the Gompertz equation were found through identifying the final point that corresponded to the lag phase. This was done by finding the differences between successive points, and then the maximum differences between these differences, as to determine when the lag phase ends.
 \end{itemize}
 
-\noindent Model comparison was done using the sample size-adjusted Akaike Information Criterion (AICc) and Bayesian Information Criterion (BIC). Although both of these metrics are used the same way, they have slightly different scoring criteria, notably that BIC has a greater penalty for more complex models, favouring those that are simpler \citep{burnham&Anderson_2004}. $R^2$ values were not used for model comparison, but were used to assess the goodness of fit of models.
+\noindent $R^2$ values were not used for model comparison, but were used to assess the goodness of fit of models, with values greater than 0.5 indicating a model has explained more than half of variability of the growth curves. Model comparison was done using the sample size-adjusted Akaike Information Criterion (AICc) (5) and Bayesian Information Criterion (BIC) (6):
+
+\[
+    AIC_C = n + 2 + nlog(\frac{2\pi}{n})+nlog(rss)+2p(\frac{n}{n-p-1}) \tag{5}
+\]
+
+\[
+    BIC = n + 2 + nlog(\frac{2\pi}{n})+nlog(rss)+(log(n))(p+1) \tag{6}
+\]
+
+\noindent Where $n$ is the number of samples, $rss$ is the residual sum of squares and $p$ is the number of parameters in the model. Although both of these metrics are used the same way, they have slightly different scoring criteria, notably that BIC has a greater penalty for more complex models, favouring those that are simpler \citep{burnham&Anderson_2004}. 
 
 \subsection{Computing Tools}
 All data analysis was done in R version 4.1.2 \citep{R}. The package "tidyverse" \citep{tidyverse} was used for data wrangling and plotting graphs. The package "patchwork" \citep{patchwork} was used for modifying plotted graphs. The package "minpack.lm" \citep{minpack.lm} was used for modelling non-linear least square (NLLS) models. Compared to the base "nls()" function which uses the Gauss-Newton algorithm, the "nls.LM()" function provided by "minpack.lm" uses the more robust Levenberg-Marqualdt algorithm, which is less likely to fail when starting values are set to be far from the optimal. 
@@ -138,7 +154,7 @@ The logistic model was found to fit best in the most growth curves according to 
 
 \noindent Out of the mechanistic models, the logistic outperformed the Gompertz massively in AICc metrics, and slightly for BIC metrics. This could be due to $t_{lag}$ parameter of the Gompertz model not being put into full use, as most data curves seemed to lack a significant lag phase (Figure \ref{fig:four_panels}C for curve with lag phase). Additionally, as both AICc and BIC metrics penalise models with greater number of parameters \citep{burnham&Anderson_2004}, the additional $t_{lag}$ parameter of the Gompertz model and its limited use during fitting could be a reason for it scoring worse than the Logistic model. Indeed, a biological model should distill a complex biological system into an equation that is as simple as possible for ease of use, whilst maintaining the ability to represent the true system \citep{transtrum_bridging_2016}. The uniform and controlled nature of experimental growth environments are thought to encourage more symmetric growth curves, whilst more heterogeneous environments lead to more asymmetric curves \citep{peleg_modeling_1997}. The Gompertz model can fit both symmetric and asymmetric curves, whilst the logistic fits only symmetric curves \citep{peleg_modeling_1997}, meaning the advantages of the Gompertz model may be increased if the environment contained more heterogeneity, rather than the controlled environments with single species present in this dataset. \\
 
-\noindent Interestingly however, the Gompertz model achieved almost twice the number of best fits for BIC compared to AICc, despite the fact that BIC penalises greater complexity more than AICc, overall favouring models with fewer parameters. This could be due to other differences between AICc and BIC, as they are known to select models differently depending on how much additional predictive power a more complex model has over a more simple one. In the context of tapering effects, where more complex models gradually add less and less predictive power, AIC/AICc is thought to perform better than BIC \citep{burnham&Anderson_2004}. Additional analysis would be required to determine if this tapering effect is present for this dataset and models. \\
+\noindent Interestingly however, the Gompertz model achieved almost twice the number of best fits for BIC compared to AICc, despite the fact that BIC penalises greater complexity more than AICc, overall favouring models with fewer parameters. This could be due to other differences between AICc and BIC, as they are known to select models differently depending on how much additional predictive power a more complex model has over a more simple one. In the context of tapering effects, where more complex models gradually add less and less predictive power, AIC/AICc is thought to perform better than BIC \citep{burnham&Anderson_2004}. Additional analysis would be required to determine if this tapering effect is present for this dataset and models. 
 
 \noindent Despite the logistic and Gompertz models fitting to the data better than the linear models, neither were able to fit well to growth curves that had a steep death phase, as neither incorporated a parameter for the death phase in their equations. Some attempts have been made at incorporating a death phase into a model equation, for instance the equation derived by Whiting \& Cygnarowicz-Provost \citeyearpar{whiting_quantitative_1992}. The equations however are much more complex than the relatively simple logistic and Gompertz models, and therefore may have additional difficulties when fitted to the datapoints. Apart from the death phase itself, mortality in any other part of the growth curve is also not modelled by the logistic and Gompertz models, which may impact results and limit biological inference \citep{peleg_microbial_2011}. Future studies may want to incorporate death phase models into their growth curve model comparison. \\
 
