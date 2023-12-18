@@ -28,6 +28,8 @@ The following files can be found in the 'code' folder:
 > debugme.py
 > align_seqs.py
 > oaks_debugme.py
+> align_seqs_better.py
+> align_seqs_fasta.py
 
 Author:
 > Tianle Shao

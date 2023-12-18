@@ -35,6 +35,11 @@ The following files can be found in the 'code' folder:
 > plotLin.R
 > PP_Regress.R (Practical)
 > GPDD_Data.R (Practical)
+> get_TreeHeight.R (Group)
+> run_get_TreeHeight.sh (Group)
+> get_TreeHeight.py (Group)
+> TAutoCorr.R (Group)
+> PP_Regress_loc.R (Group)
 
 'data'
 > trees.csv
@@ -44,6 +49,8 @@ The following files can be found in the 'code' folder:
 > EcolArchives-E089-51-D1.csv
 > KeyWestAnnualMeanTemperature.RData
 > GPDDFiltered.RData
+> ats_plot.png
+> ats_random_plot.png
 
 'results'
 > MyData.csv
@@ -59,13 +66,11 @@ The following files can be found in the 'code' folder:
 > MyLinReg.pdf
 > PP_Regress_Results.csv
 > PP_Regress.pdf
-
-The following groupwork files will NOT be found in the 'code' folder
-> get_TreeHeight.R
-> run_get_TreeHeight.sh
-> get_TreeHeight.py
-> TAutoCorr.R
-> PP_Regress_loc.R
+> PP_Regress_loc_Results.csv
+> TAutoCorr.pdf
+> trees_treeheights_py.csv
+> trees_treeheights_R.csv
+> trees_treeheights.csv
 
 Author:
 > Tianle Shao

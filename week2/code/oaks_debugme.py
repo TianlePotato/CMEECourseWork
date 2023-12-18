@@ -1,46 +1,43 @@
 #!/usr/bin/env python3
 
-"""Identifies the presence of oaks from a list"""
+"""Use functions find the oak species from a list of species"""
+
+__author__ = 'Tianle Shao (tianle.shao20@imperial.ac.uk)'
+__version__ = '0.0.1'
 
 import csv
 import sys
+import ipdb
 import doctest
 
-#Define function
+
+# Define function
 def is_an_oak(name):
-    """ Returns True if name is starts with 'quercus' 
-    
-    >>> is_an_oak("quercusbruhmoment")
-    False
-
-    >>> is_an_oak("quercu")
-    False
-
-    >>> is_an_oak("quercus ")
-    False
+    """Returns True if name is starts with 'quercus'.
     """
+    return name.lower() == 'quercus'
 
-    return name.lower() == "quercus"
 
-def main(argv): 
-    """Identifies and saves trees that are OAK"""
-    f = open('../data/TestOaksData.csv','r',)
-    g = open('../data/JustOaksData.csv','w')
+def main(argv):
+    f = open('../data/TestOaksData.csv', 'r')
+    g = open('../results/OutputOaksData.csv', 'w')
     taxa = csv.reader(f)
-    csvwrite = csv.writer(g)
+    csv_write = csv.writer(g)
+    csv_write.writerow(['Genus', 'Species'])
     oaks = set()
-    next(taxa) #Ignores the header row
+    if next(taxa) == ['Genus', 'Species']:
+        next(taxa)
     for row in taxa:
         print(row)
-        print ("The genus is: ") 
+        print("The genus is: ")
         print(row[0] + '\n')
         if is_an_oak(row[0]):
             print('FOUND AN OAK!\n')
-            csvwrite.writerow([row[0], row[1]])    
+            csv_write.writerow([row[0], row[1]])
 
     return 0
-    
-if (__name__ == "__main__"):
-    status = main(sys.argv)
 
-doctest.testmod()
+
+if __name__ == "__main__":
+    status = main(sys.argv)
+    sys.exit(status)
