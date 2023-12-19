@@ -1,0 +1,72 @@
+R is about to run
+
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-conda-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # CMEE 2022 HPC exercises R code pro forma
+> # For neutral model cluster run
+> 
+> rm(list=ls()) # good practice 
+> source("ts920_HPC_2023_main.R")
+> 
+> # get iteration value
+> iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
+> 
+> set.seed(iter)
+> 
+> file_name <- paste("cluster_output_", as.character(iter), ".rda", sep = "")
+> 
+> wall_time = 11.5*60
+> 
+> if (iter < 26){
++   neutral_cluster_run(interval_rich = 1, interval_oct = 500/10, 
++                       burn_in_generations = 8*500, speciation_rate = 0.002902,
++                       size = 500, wall_time = wall_time,
++                       output_file_name = file_name)
++   
++ } else if (25 < iter && iter < 51) {
++   neutral_cluster_run(interval_rich = 1, interval_oct = 1000/10, 
++                       burn_in_generations = 8*1000, speciation_rate = 0.002902,
++                       size = 1000, wall_time = wall_time,
++                       output_file_name = file_name)
++   
++ } else if (50 < iter && iter < 76) {
++   neutral_cluster_run(interval_rich = 1, interval_oct = 2500/10, 
++                       burn_in_generations = 8*2500, speciation_rate = 0.002902,
++                       size = 2500, wall_time = wall_time,
++                       output_file_name = file_name)
++   
++ } else {
++   neutral_cluster_run(interval_rich = 1, interval_oct = 5000/10, 
++                       burn_in_generations = 8*5000, speciation_rate = 0.002902,
++                       size = 5000, wall_time = wall_time,
++                       output_file_name = file_name)
++ }
+> 
+> 
+R has finished running
+
+============================================
+
+        Job resource usage summary 
+
+                 Memory (GB)    NCPUs
+ Requested  :         1             1
+ Used       :         0 (peak)   0.98 (ave)
+
+============================================
